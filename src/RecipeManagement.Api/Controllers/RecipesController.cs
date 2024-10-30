@@ -7,7 +7,7 @@ namespace RecipeManagement.Api.Controllers;
 [ApiController]
 public class RecipesController : ControllerBase
 {
-    private static List<Recipe> Recipes = new List<Recipe>();
+    private static List<Recipe> Recipes = [];
 
     [HttpGet]
     public ActionResult<List<Recipe>> GetAllRecipes()
