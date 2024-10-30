@@ -1,4 +1,4 @@
-namespace RecipeManagement.Api
+namespace RecipeManagement.Api.Models
 {
     public class WeatherForecast
     {
