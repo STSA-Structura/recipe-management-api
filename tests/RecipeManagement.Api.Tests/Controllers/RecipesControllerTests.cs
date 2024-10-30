@@ -1,12 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RecipeManagement.Api.Controllers;
 using RecipeManagement.Api.Models;
+using System.Diagnostics.CodeAnalysis;
 
-namespace RecipeManagement.Api.Tests;
+namespace RecipeManagement.Api.Tests.Controllers;
 
 [TestClass]
+[ExcludeFromCodeCoverage]
 public sealed class RecipesControllerTests
 {
+    private RecipesController _controller;
+    private List<Recipe> _recipes;
+
     [AssemblyInitialize]
     public static void AssemblyInit(TestContext context)
     {
@@ -34,8 +39,8 @@ public sealed class RecipesControllerTests
     [TestInitialize]
     public void TestInit()
     {
-        // This method is called before each test method.
-        _controller = new RecipesController();
+        _recipes = [];
+        _controller = new RecipesController(_recipes);
     }
 
     [TestCleanup]
@@ -43,8 +48,6 @@ public sealed class RecipesControllerTests
     {
         // This method is called after each test method.
     }
-
-    private RecipesController _controller;
 
     [TestMethod]
     public void GetAllRecipes_ReturnsOkResult_WithListOfRecipes()
@@ -64,7 +67,7 @@ public sealed class RecipesControllerTests
     {
         // Arrange
         var recipe = new Recipe { Id = 1, Name = "Test Recipe", Description = "Test Description", Ingredients = new List<string> { "Ingredient1" } };
-        RecipesController.Recipes.Add(recipe);
+        _recipes.Add(recipe);
 
         // Act
         var result = _controller.GetRecipeById(1);
@@ -109,7 +112,7 @@ public sealed class RecipesControllerTests
     {
         // Arrange
         var recipe = new Recipe { Id = 1, Name = "Test Recipe", Description = "Test Description", Ingredients = new List<string> { "Ingredient1" } };
-        RecipesController.Recipes.Add(recipe);
+        _recipes.Add(recipe);
         var updatedRecipe = new Recipe { Name = "Updated Recipe", Description = "Updated Description", Ingredients = new List<string> { "Ingredient2" } };
 
         // Act
@@ -137,7 +140,7 @@ public sealed class RecipesControllerTests
     {
         // Arrange
         var recipe = new Recipe { Id = 1, Name = "Test Recipe", Description = "Test Description", Ingredients = new List<string> { "Ingredient1" } };
-        RecipesController.Recipes.Add(recipe);
+        _recipes.Add(recipe);
 
         // Act
         var result = _controller.DeleteRecipe(1);
@@ -155,5 +158,4 @@ public sealed class RecipesControllerTests
         // Assert
         Assert.IsInstanceOfType(result, typeof(NotFoundResult));
     }
-
 }
