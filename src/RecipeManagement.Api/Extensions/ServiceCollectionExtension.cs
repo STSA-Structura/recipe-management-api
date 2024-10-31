@@ -14,7 +14,7 @@ public static class ServiceCollectionExtension
         services.AddSwaggerGen();
 
         // Register AutoMapper with MappingProfile
-        services.AddAutoMapper(typeof(MappingProfile));
+        services.AddAutoMapper(typeof(RecipesMappingProfile));
     }
 
 }

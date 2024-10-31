@@ -4,9 +4,9 @@ using RecipeManagement.Api.Entities.Recipes;
 
 namespace RecipeManagement.Api.Profiles;
 
-public class MappingProfile : Profile
+public class RecipesMappingProfile : Profile
 {
-    public MappingProfile()
+    public RecipesMappingProfile()
     {
         CreateMap<Recipe, RecipeDto>();
         CreateMap<RecipeCreateDto, Recipe>();
