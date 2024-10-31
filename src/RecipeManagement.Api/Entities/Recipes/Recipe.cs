@@ -11,7 +11,7 @@ public class Recipe : BaseEntity
     [MaxLength(500)]
     public string Description { get; set; } = string.Empty;
 
-    public List<string> Ingredients { get; set; } = [];
+    public List<string> Ingredients { get; set; } = new List<string>();
 
     [Range(1, 5)]
     public int DifficultyLevel { get; set; }
