@@ -5,9 +5,9 @@ namespace RecipeManagement.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class RecipesController(List<Recipe>? recipes = null) : ControllerBase
+public class RecipesController : ControllerBase
 {
-    private readonly List<Recipe> _recipes = recipes ?? [];
+    private static readonly List<Recipe> _recipes = new List<Recipe>();
 
     [HttpGet]
     public ActionResult<List<Recipe>> GetAllRecipes()
