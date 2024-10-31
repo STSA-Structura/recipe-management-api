@@ -9,8 +9,8 @@ namespace RecipeManagement.Api.Tests.Controllers;
 [ExcludeFromCodeCoverage]
 public sealed class RecipesControllerTests
 {
-    private RecipesController _controller;
-    private List<Recipe> _recipes;
+    private RecipesController _controller = default!;
+    private List<Recipe> _recipes = [];
 
     [AssemblyInitialize]
     public static void AssemblyInit(TestContext context)
@@ -57,9 +57,10 @@ public sealed class RecipesControllerTests
 
         // Assert
         var okResult = result.Result as OkObjectResult;
-        Assert.IsNotNull(okResult);
+        Assert.IsNotNull(okResult, "Expected OkObjectResult");
         var recipes = okResult.Value as List<Recipe>;
-        Assert.IsNotNull(recipes);
+        Assert.IsNotNull(recipes, "Expected a list of recipes");
+        Assert.AreEqual(0, recipes.Count, "Expected the list to be empty initially");
     }
 
     [TestMethod]
@@ -74,10 +75,10 @@ public sealed class RecipesControllerTests
 
         // Assert
         var okResult = result.Result as OkObjectResult;
-        Assert.IsNotNull(okResult);
+        Assert.IsNotNull(okResult, "Expected OkObjectResult");
         var returnedRecipe = okResult.Value as Recipe;
-        Assert.IsNotNull(returnedRecipe);
-        Assert.AreEqual(recipe.Id, returnedRecipe.Id);
+        Assert.IsNotNull(returnedRecipe, "Expected a recipe object");
+        Assert.AreEqual(recipe.Id, returnedRecipe.Id, "Expected recipe IDs to match");
     }
 
     [TestMethod]
@@ -87,7 +88,7 @@ public sealed class RecipesControllerTests
         var result = _controller.GetRecipeById(999);
 
         // Assert
-        Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
+        Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult), "Expected NotFoundResult for non-existing recipe ID");
     }
 
     [TestMethod]
@@ -101,10 +102,11 @@ public sealed class RecipesControllerTests
 
         // Assert
         var createdAtActionResult = result.Result as CreatedAtActionResult;
-        Assert.IsNotNull(createdAtActionResult);
+        Assert.IsNotNull(createdAtActionResult, "Expected CreatedAtActionResult");
         var returnedRecipe = createdAtActionResult.Value as Recipe;
-        Assert.IsNotNull(returnedRecipe);
-        Assert.AreEqual(recipe.Name, returnedRecipe.Name);
+        Assert.IsNotNull(returnedRecipe, "Expected a recipe object");
+        Assert.AreEqual(recipe.Name, returnedRecipe.Name, "Expected recipe names to match");
+        Assert.AreEqual(1, returnedRecipe.Id, "Expected the new recipe to have ID 1");
     }
 
     [TestMethod]
@@ -119,7 +121,9 @@ public sealed class RecipesControllerTests
         var result = _controller.UpdateRecipe(1, updatedRecipe);
 
         // Assert
-        Assert.IsInstanceOfType(result, typeof(NoContentResult));
+        Assert.IsInstanceOfType(result, typeof(NoContentResult), "Expected NoContentResult for a successful update");
+        Assert.AreEqual("Updated Recipe", _recipes[0].Name, "Expected recipe name to be updated");
+        Assert.AreEqual("Updated Description", _recipes[0].Description, "Expected recipe description to be updated");
     }
 
     [TestMethod]
@@ -132,7 +136,7 @@ public sealed class RecipesControllerTests
         var result = _controller.UpdateRecipe(999, updatedRecipe);
 
         // Assert
-        Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+        Assert.IsInstanceOfType(result, typeof(NotFoundResult), "Expected NotFoundResult for non-existing recipe ID");
     }
 
     [TestMethod]
@@ -146,7 +150,8 @@ public sealed class RecipesControllerTests
         var result = _controller.DeleteRecipe(1);
 
         // Assert
-        Assert.IsInstanceOfType(result, typeof(NoContentResult));
+        Assert.IsInstanceOfType(result, typeof(NoContentResult), "Expected NoContentResult for a successful deletion");
+        Assert.AreEqual(0, _recipes.Count, "Expected the recipe list to be empty after deletion");
     }
 
     [TestMethod]
@@ -156,6 +161,7 @@ public sealed class RecipesControllerTests
         var result = _controller.DeleteRecipe(999);
 
         // Assert
-        Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+        Assert.IsInstanceOfType(result, typeof(NotFoundResult), "Expected NotFoundResult for non-existing recipe ID");
     }
+
 }
