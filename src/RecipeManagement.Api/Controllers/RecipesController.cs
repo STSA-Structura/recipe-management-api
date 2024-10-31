@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RecipeManagement.Api.Models;
+using RecipeManagement.Api.Entities.Recipes;
 
 namespace RecipeManagement.Api.Controllers;
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RecipeManagement.Api.Controllers;
-using RecipeManagement.Api.Models;
+using RecipeManagement.Api.Entities.Recipes;
 using System.Diagnostics.CodeAnalysis;
 
 namespace RecipeManagement.Api.Tests.Controllers;

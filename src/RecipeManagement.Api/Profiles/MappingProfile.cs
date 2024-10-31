@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using RecipeManagement.Api.Dtos;
-using RecipeManagement.Api.Models;
+using RecipeManagement.Api.Dtos.Recipes;
+using RecipeManagement.Api.Entities.Recipes;
 
 namespace RecipeManagement.Api.Profiles;
 

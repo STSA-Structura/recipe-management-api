@@ -1,5 +1,4 @@
-﻿using RecipeManagement.Api.Models;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace RecipeManagement.Api.Tests.Models;
 

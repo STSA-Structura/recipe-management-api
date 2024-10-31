@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RecipeManagement.Api.Models;
+namespace RecipeManagement.Api.Entities.Recipes;
 
 public class Recipe
 {
