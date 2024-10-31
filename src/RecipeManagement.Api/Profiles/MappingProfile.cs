@@ -1,6 +1,5 @@
-﻿namespace RecipeManagement.Api.Profiles
+﻿namespace RecipeManagement.Api.Profiles;
+
+public class MappingProfile
 {
-    public class MappingProfile
-    {
-    }
 }
