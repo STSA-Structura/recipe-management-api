@@ -2,7 +2,7 @@
 
 public static class HttpPipelineConfigurationExtensions
 {
-    public static void UseConfiguredPipeline(this WebApplication app)
+    public static void UseConfiguredHttpPipeline(this WebApplication app)
     {
         if (app.Environment.IsDevelopment())
         {
