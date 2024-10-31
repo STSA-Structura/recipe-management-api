@@ -2,7 +2,7 @@
 
 namespace RecipeManagement.Api.Entities.Recipes;
 
-public class Recipe : BaseEntity
+public class Recipe : BaseEntity<Guid>
 {
     [Required]
     [MaxLength(100)]

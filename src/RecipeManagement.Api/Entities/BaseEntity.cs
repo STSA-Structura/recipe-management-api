@@ -2,10 +2,10 @@
 
 namespace RecipeManagement.Api.Entities;
 
-public class BaseEntity
+public class BaseEntity<T>
 {
     [Key]
-    public int Id { get; set; }
+    public T Id { get; set; } = default!;
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
