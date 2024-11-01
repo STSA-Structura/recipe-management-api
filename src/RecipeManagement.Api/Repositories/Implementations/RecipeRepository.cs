@@ -6,7 +6,7 @@ namespace RecipeManagement.Api.Repositories.Implementations;
 
 public class RecipeRepository : IRecipeRepository
 {
-    private readonly ConcurrentDictionary<Guid, Recipe> _recipes = new();
+    private static readonly ConcurrentDictionary<Guid, Recipe> _recipes = new();
 
     public Task<List<Recipe>> GetAllRecipesAsync()
     {
