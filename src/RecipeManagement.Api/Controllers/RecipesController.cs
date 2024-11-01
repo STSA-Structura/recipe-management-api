@@ -1,26 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RecipeManagement.Api.Dtos.Recipes;
-using RecipeManagement.Api.Entities.Recipes;
-using RecipeManagement.Api.Repositories.Interfaces;
+using RecipeManagement.Api.Services.Interfaces;
 
 namespace RecipeManagement.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class RecipesController(IRecipeRepository _recipeRepository) : ControllerBase
+public class RecipesController(IRecipeService _recipeService) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<List<Recipe>>> GetAllRecipes()
+    public async Task<ActionResult<List<RecipeDto>>> GetAllRecipes()
     {
-        var recipes = await _recipeRepository.GetAllRecipesAsync();
+        var recipes = await _recipeService.GetAllRecipesAsync();
 
         return Ok(recipes);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Recipe>> GetRecipeById(Guid id)
+    public async Task<ActionResult<RecipeDto>> GetRecipeById(Guid id)
     {
-        var recipe = await _recipeRepository.GetRecipeByIdAsync(id);
+        var recipe = await _recipeService.GetRecipeByIdAsync(id);
         if (recipe == null)
         {
             return NotFound();
@@ -30,53 +29,39 @@ public class RecipesController(IRecipeRepository _recipeRepository) : Controller
     }
 
     [HttpPost]
-    public async Task<ActionResult<Recipe>> AddRecipe(RecipeCreateDto recipeDto)
+    public async Task<ActionResult<RecipeDto>> AddRecipe(RecipeCreateDto recipeDto)
     {
-        var recipe = new Recipe
-        {
-            Name = recipeDto.Name,
-            Description = recipeDto.Description,
-            Ingredients = recipeDto.Ingredients,
-            DifficultyLevel = recipeDto.DifficultyLevel,
-            CreatedAt = DateTime.UtcNow
-        };
-
-        await _recipeRepository.AddRecipeAsync(recipe);
+        var recipe = await _recipeService.AddRecipeAsync(recipeDto);
 
         return CreatedAtAction(nameof(GetRecipeById), new { id = recipe.Id }, recipe);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateRecipe(Guid id, RecipeCreateDto updatedRecipeDto)
+    public async Task<ActionResult> UpdateRecipe(Guid id, RecipeUpdateDto updatedRecipeDto)
     {
-        var existingRecipe = await _recipeRepository.GetRecipeByIdAsync(id);
-        if (existingRecipe == null)
+        try
         {
-            return NotFound();
+            await _recipeService.UpdateRecipeAsync(id, updatedRecipeDto);
+            return NoContent();
         }
-
-        existingRecipe.Name = updatedRecipeDto.Name;
-        existingRecipe.Description = updatedRecipeDto.Description;
-        existingRecipe.Ingredients = updatedRecipeDto.Ingredients;
-        existingRecipe.DifficultyLevel = updatedRecipeDto.DifficultyLevel;
-        existingRecipe.UpdatedAt = DateTime.UtcNow;
-
-        await _recipeRepository.UpdateRecipeAsync(existingRecipe);
-
-        return NoContent();
+        catch (Exception ex)
+        {
+            return NotFound(ex.Message);
+        }
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteRecipe(Guid id)
     {
-        var recipe = await _recipeRepository.GetRecipeByIdAsync(id);
-        if (recipe == null)
+        try
         {
-            return NotFound();
+            await _recipeService.DeleteRecipeAsync(id);
+            return NoContent();
         }
-
-        await _recipeRepository.DeleteRecipeAsync(id);
-        return NoContent();
+        catch (Exception ex)
+        {
+            return NotFound(ex.Message);
+        }
     }
 
 }
