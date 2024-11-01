@@ -48,7 +48,7 @@ public class RecipeRepository : IRecipeRepository
         return Task.CompletedTask;
     }
 
-    private void UpdateRecipeFields(Recipe original, Recipe updated)
+    private static void UpdateRecipeFields(Recipe original, Recipe updated)
     {
         original.Name = updated.Name;
         original.Description = updated.Description;
