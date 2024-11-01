@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using RecipeManagement.Api.Controllers;
+﻿using RecipeManagement.Api.Controllers;
 using RecipeManagement.Api.Entities.Recipes;
 using System.Diagnostics.CodeAnalysis;
 
@@ -49,5 +48,5 @@ public sealed class RecipesControllerTests
         // This method is called after each test method.
     }
 
-    
+
 }
