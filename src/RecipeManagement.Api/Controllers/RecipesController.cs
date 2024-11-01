@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RecipeManagement.Api.Dtos.Recipes;
 using RecipeManagement.Api.Entities.Recipes;
-using RecipeManagement.Api.Repositories.Implementations;
 using RecipeManagement.Api.Repositories.Interfaces;
 
 namespace RecipeManagement.Api.Controllers;
