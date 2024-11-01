@@ -39,7 +39,7 @@ public sealed class RecipesControllerTests
     public void TestInit()
     {
         _recipes = [];
-        _controller = new RecipesController(_recipes);
+        _controller = new RecipesController();
     }
 
     [TestCleanup]
