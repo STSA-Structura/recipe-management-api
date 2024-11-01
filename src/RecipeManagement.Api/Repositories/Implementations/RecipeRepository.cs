@@ -1,35 +1,35 @@
-﻿using RecipeManagement.Api.Entities.Recipes;
+﻿using System.Collections.Concurrent;
+using RecipeManagement.Api.Entities.Recipes;
 using RecipeManagement.Api.Repositories.Interfaces;
 
 namespace RecipeManagement.Api.Repositories.Implementations;
 
 public class RecipeRepository : IRecipeRepository
 {
-    private readonly List<Recipe> _recipes = new();
+    private readonly ConcurrentDictionary<Guid, Recipe> _recipes = new();
 
     public Task<List<Recipe>> GetAllRecipesAsync()
     {
-        return Task.FromResult(_recipes);
+        var recipes = _recipes.Values.ToList();
+        return Task.FromResult(recipes);
     }
 
     public Task<Recipe?> GetRecipeByIdAsync(Guid id)
     {
-        var recipe = _recipes.FirstOrDefault(r => r.Id == id);
+        _recipes.TryGetValue(id, out var recipe);
         return Task.FromResult(recipe);
     }
 
     public Task AddRecipeAsync(Recipe recipe)
     {
         recipe.Id = Guid.NewGuid();
-        _recipes.Add(recipe);
-
+        _recipes[recipe.Id] = recipe;
         return Task.CompletedTask;
     }
 
     public Task UpdateRecipeAsync(Recipe updatedRecipe)
     {
-        var recipe = _recipes.FirstOrDefault(r => r.Id == updatedRecipe.Id);
-        if (recipe != null)
+        if (_recipes.TryGetValue(updatedRecipe.Id, out var recipe))
         {
             recipe.Name = updatedRecipe.Name;
             recipe.Description = updatedRecipe.Description;
@@ -42,12 +42,7 @@ public class RecipeRepository : IRecipeRepository
 
     public Task DeleteRecipeAsync(Guid id)
     {
-        var recipe = _recipes.FirstOrDefault(r => r.Id == id);
-        if (recipe != null)
-        {
-            _recipes.Remove(recipe);
-        }
+        _recipes.TryRemove(id, out _);
         return Task.CompletedTask;
     }
-
 }
