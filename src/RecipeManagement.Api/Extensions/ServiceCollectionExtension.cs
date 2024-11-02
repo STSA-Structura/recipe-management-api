@@ -1,4 +1,8 @@
-﻿using System.Reflection;
+﻿using RecipeManagement.Api.Repositories.Implementations;
+using RecipeManagement.Api.Repositories.Interfaces;
+using RecipeManagement.Api.Services.Implementations;
+using RecipeManagement.Api.Services.Interfaces;
+using System.Reflection;
 
 namespace RecipeManagement.Api.Extensions;
 
@@ -14,5 +18,9 @@ public static class ServiceCollectionExtension
 
         // Register AutoMapper with MappingProfile
         _ = services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+        _ = services.AddScoped<IRecipeRepository, RecipeRepository>();
+
+        _ = services.AddScoped<IRecipeService, RecipeService>();
     }
 }
